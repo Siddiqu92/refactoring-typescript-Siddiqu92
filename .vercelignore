@@ -1,0 +1,12 @@
+node_modules
+.git
+.vscode
+*.test.ts
+*.test.js
+test-*.json
+db.json.backup
+demo.ts
+test-runner.ts
+src/**/*.test.ts
+src/**/*.test.js
+
