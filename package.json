@@ -8,18 +8,27 @@
   },
   "scripts": {
     "test": "vitest run",
-    "test:watch": "vitest watch"
+    "test:watch": "vitest watch",
+    "test:manual": "tsx test-runner.ts",
+    "demo": "tsx demo.ts",
+    "start": "tsx demo.ts",
+    "dev": "tsx server.ts",
+    "preview": "tsx server.ts",
+    "build": "tsc && vite build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/express": "^5.0.6",
+    "express": "^5.2.1",
     "lowdb": "^7.0.1",
     "nanoid": "^5.0.4"
   },
   "devDependencies": {
     "tsx": "^4.19.2",
     "typescript": "^5.3.3",
+    "vite": "^5.4.21",
     "vitest": "^2.1.8"
   }
 }
