@@ -1,34 +1,33 @@
-import { JSONFilePreset } from "lowdb/node";
+import { Low, JSONFile } from "lowdb/node";
 import { Client } from "./client.js";
+
+type Schema = {
+  clients: Client[];
+  users: unknown[];
+};
+
 export class ClientRepository {
+  private db?: Low<Schema>;
+
+  private async init() {
+    if (!this.db) {
+      const adapter = new JSONFile<Schema>("db.json");
+      this.db = new Low<Schema>(adapter);
+      await this.db.read();
+      this.db.data ||= { clients: [], users: [] };
+    }
+  }
+
   public async getById(id: string): Promise<Client | null> {
-    const db = await JSONFilePreset("db.json", {
-      clients: [],
-      users: [],
-    });
-    const clients = db.data.clients as Client[];
-    let c: Client | null = null;
-    for (let i = 0; i < clients.length; i++) {
-      if (clients[i].id === id) {
-        c = clients[i];
-        break;
-      }
-    }
-    if (!c) {
-      return null;
-    }
-    return {
-      id: c.id,
-      name: c.name,
-    };
+    await this.init();
+    const clients = this.db!.data!.clients;
+    const found = clients.find((c) => c.id === id) ?? null;
+    if (!found) return null;
+    return { id: found.id, name: found.name };
   }
 
   public async getAll(): Promise<Client[]> {
-    const db = await JSONFilePreset("db.json", {
-      clients: [],
-      users: [],
-    });
-    const clients = db.data.clients as Client[];
-    return clients;
+    await this.init();
+    return this.db!.data!.clients;
   }
 }
