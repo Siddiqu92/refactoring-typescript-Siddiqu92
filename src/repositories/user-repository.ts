@@ -1,17 +1,13 @@
 import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
 import { IUser } from "../types/user.interface.js";
+import { DatabaseSchema } from "../types/database.interface.js";
 import { createLRUCacheProvider } from "../lru-cache.js";
-
-type DatabaseSchema = {
-  users: IUser[];
-  clients: IClient[];
-};
-
-interface IClient {
-  id: string;
-  name: string;
-}
+import {
+  CACHE_TTL,
+  CACHE_ITEM_LIMIT,
+  CACHE_ARRAY_ITEM_LIMIT,
+} from "../constants/cache.constants.js";
 
 export interface IUserRepository {
   create(user: IUser): Promise<IUser>;
@@ -21,9 +17,6 @@ export interface IUserRepository {
   findById(id: string): Promise<IUser | null>;
 }
 
-const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
-const CACHE_ITEM_LIMIT = 100;
-
 export class UserRepository implements IUserRepository {
   private db: Low<DatabaseSchema> | null = null;
   private userCache = createLRUCacheProvider<IUser>({
@@ -32,7 +25,7 @@ export class UserRepository implements IUserRepository {
   });
   private usersArrayCache = createLRUCacheProvider<IUser[]>({
     ttl: CACHE_TTL,
-    itemLimit: 10, // Fewer array entries
+    itemLimit: CACHE_ARRAY_ITEM_LIMIT,
   });
   private dbPath: string;
 

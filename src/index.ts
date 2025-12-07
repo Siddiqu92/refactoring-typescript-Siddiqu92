@@ -10,4 +10,5 @@ export type {
   UserValidationResult,
   UserCreationResult,
 } from "./types/user.interface.js";
+export type { DatabaseSchema } from "./types/database.interface.js";
 

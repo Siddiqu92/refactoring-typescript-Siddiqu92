@@ -150,6 +150,19 @@
         "name": "VeryImportantClient"
       },
       "hasCreditLimit": false
+    },
+    {
+      "id": "_6ioZKDPyu3-ngZOMyviZ",
+      "firstname": "Siddique",
+      "surname": "khan",
+      "email": "amazingfact92@gmail.com",
+      "dateOfBirth": "1993-03-01T00:00:00.000Z",
+      "client": {
+        "id": "sqKCG8q-QJ1kJesCTQJY3",
+        "name": "ImportantClient"
+      },
+      "hasCreditLimit": true,
+      "creditLimit": 20000
     }
   ]
 }
